@@ -4,6 +4,7 @@ public abstract class Entity {
     protected double MOVEMENT_SPEED;
     protected double TURN_SPEED;
     protected boolean live = true;
+    protected boolean readyToShoot;
 
     private final String id;
     private double x;
@@ -53,7 +54,12 @@ public abstract class Entity {
     // consider how to design your Tank class(es) so that a Tank can represent both a player-controlled tank and an AI
     // controlled tank.
 
-
+    public boolean readyToShoot() {
+        return readyToShoot;
+    }
+    public void setReadyToShoot(boolean input) {
+        readyToShoot = input;
+    }
 
     public abstract void move(GameState gameState);
 

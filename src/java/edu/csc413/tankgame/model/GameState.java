@@ -3,6 +3,7 @@ package edu.csc413.tankgame.model;
 import edu.csc413.tankgame.view.RunGameView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -28,11 +29,16 @@ public class GameState {
     // TODO: Implement.
     // There's a lot of information the GameState will need to store to provide contextual information. Add whatever
     // instance variables, constructors, and methods are needed.
+    private static HashMap<String, Boolean> cooldownBoolMap = new HashMap<>();
 
     private final List<Entity> entities = new ArrayList<>();
 
     public void addEntity(Entity entity) {
+
         entities.add(entity);
+        if (!entity.getId().contains("shell")) {
+            cooldownBoolMap.put(entity.getId(), false);
+        }
     }
 
     public List<Entity> getEntities() {
@@ -54,6 +60,9 @@ public class GameState {
     private boolean dPressed = false;
     private boolean spacePressed = false;
     private boolean exitButtonPressed = false;
+    private boolean playerShot = false;
+    private boolean aiShot = false;
+
     public boolean wPressed() {
         return wPressed;
     }
@@ -68,6 +77,9 @@ public class GameState {
     }
     public boolean spacePressed() { return spacePressed; }
     public boolean exitButtonPressed() { return exitButtonPressed; }
+    public boolean playerShot() { return playerShot; }
+    public boolean aiShot() { return aiShot; }
+
 
     public void setPressW(boolean input) {
         wPressed = input;
@@ -83,4 +95,6 @@ public class GameState {
     }
     public void setPressSpace(boolean input) { spacePressed = input; }
     public void setExitButtonPressed(boolean input) { exitButtonPressed = input; }
+    public void setPlayerShot(boolean input) { playerShot = input; }
+    public void setAiShot(boolean input) { aiShot = input; }
 }

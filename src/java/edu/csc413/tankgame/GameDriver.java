@@ -137,20 +137,49 @@ public class GameDriver {
 
         // GameState - new entities to draw
         // if so, call addDrawableEntity
-        for (int in = 0; in < gameState.getEntities().size(); in++) {
-            if (gameState.spacePressed()) {
-                double x = gameState.getEntity(GameState.PLAYER_TANK_ID).getX();
-                double y = gameState.getEntity(GameState.PLAYER_TANK_ID).getY();
-                double angle = gameState.getEntity(GameState.PLAYER_TANK_ID).getAngle();
-                Shell shell = new Shell(x, y, angle);
-                gameState.addEntity(shell);
-                runGameView.addDrawableEntity(shell.getId(), RunGameView.SHELL_IMAGE_FILE,
-                        shell.getX(), shell.getY(), shell.getAngle());
-                gameState.setPressSpace(false);
+            for (int in = 0; in < gameState.getEntities().size(); in++) {
+                Entity entity = gameState.getEntities().get(in);
+                if (!entity.getId().contains("shell")) {
+                    if (entity.readyToShoot()) {
+                        Shell shell;
+                        double x, y, angle;
+                        if (entity.getId().equals(GameState.PLAYER_TANK_ID) && gameState.spacePressed()) {
+                            x = gameState.getEntity(GameState.PLAYER_TANK_ID).getX() + 30.0 *
+                                    (Math.cos(gameState.getEntity(GameState.PLAYER_TANK_ID).getAngle()) + 0.5);
+                            y = gameState.getEntity(GameState.PLAYER_TANK_ID).getY() + 30.0 *
+                                    (Math.sin(gameState.getEntity(GameState.PLAYER_TANK_ID).getAngle()) + 0.5);
+                            angle = gameState.getEntity(GameState.PLAYER_TANK_ID).getAngle();
+                            gameState.setPressSpace(false);
+                        }
+                        else {
+                            x = gameState.getEntity(GameState.AI_TANK_ID).getX() + 30.0 *
+                                    (Math.cos(gameState.getEntity(GameState.AI_TANK_ID).getAngle()) + 0.5);
+                            y = gameState.getEntity(GameState.AI_TANK_ID).getY() + 30.0 *
+                                    (Math.sin(gameState.getEntity(GameState.AI_TANK_ID).getAngle()) + 0.5);
+                            angle = gameState.getEntity(GameState.AI_TANK_ID).getAngle();
+                        }
+                        shell = new Shell(x, y, angle);
+                        gameState.addEntity(shell);
+                        runGameView.addDrawableEntity(shell.getId(), RunGameView.SHELL_IMAGE_FILE,
+                                shell.getX(), shell.getY(), shell.getAngle());
+                        entity.setReadyToShoot(false);
+                    }
+                }
             }
 
-        }
-
+                /*if (gameState.spacePressed() && gameState.getEntity(GameState.PLAYER_TANK_ID)) {
+                    double x = gameState.getEntity(GameState.PLAYER_TANK_ID).getX() + 30.0 *
+                            (Math.cos(gameState.getEntity(GameState.PLAYER_TANK_ID).getAngle()) + 0.5)())
+                    double y = gameState.getEntity(GameState.PLAYER_TANK_ID).getY() + 30.0 *
+                            (Math.sin(gameState.getEntity(GameState.PLAYER_TANK_ID).getAngle()) + 0.5)());
+                    double angle = gameState.getEntity(GameState.PLAYER_TANK_ID).getAngle();
+                    Shell shell = new Shell(x, y, angle);
+                    gameState.addEntity(shell);
+                    runGameView.addDrawableEntity(shell.getId(), RunGameView.SHELL_IMAGE_FILE,
+                            shell.getX(), shell.getY(), shell.getAngle());
+                    gameState.setPressSpace(false);
+                    gameState.setPlayerShot(true);
+                }*/
 
         // GameState - new entities to remove
         // if so, call removeDrawableEntity

@@ -5,6 +5,7 @@ public class PlayerTank extends Tank{
         super(id, x, y, angle);
     }
     public void move(GameState gameState) {
+        super.move(gameState);
         if (gameState.wPressed()) {
             moveForward();
         }
