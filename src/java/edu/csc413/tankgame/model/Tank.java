@@ -44,7 +44,7 @@ public class Tank {
     // controlled tank.
 
     public void move(GameState gameState) {
-
+        //implement in subclasses
     }
     protected void moveForward() {
         x += MOVEMENT_SPEED * Math.cos(angle);

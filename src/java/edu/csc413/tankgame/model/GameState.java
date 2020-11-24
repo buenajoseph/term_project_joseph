@@ -42,4 +42,34 @@ public class GameState {
     public Tank getTank(String id) {
         return new Tank("1", 1, 1, 1);
     }
+
+    private boolean wPressed = false;
+    private boolean sPressed = false;
+    private boolean aPressed = false;
+    private boolean dPressed = false;
+    public boolean wPressed() {
+        return wPressed;
+    }
+    public boolean sPressed() {
+        return sPressed;
+    }
+    public boolean aPressed() {
+        return aPressed;
+    }
+    public boolean dPressed() {
+        return dPressed;
+    }
+
+    public void setPressW(boolean input) {
+        wPressed = input;
+    }
+    public void setPressS(boolean input) {
+        sPressed = input;
+    }
+    public void setPressA(boolean input) {
+        aPressed = input;
+    }
+    public void setPressD(boolean input) {
+        dPressed = input;
+    }
 }

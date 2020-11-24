@@ -15,6 +15,7 @@ import java.awt.event.ActionListener;
  * GameDriver is the primary controller class for the tank game. The game is launched from GameDriver.main, and
  * GameDriver is responsible for running the game loop while coordinating the views and the data models.
  */
+
 public class GameDriver {
     // TODO: Implement.
     // Add the instance variables, constructors, and other methods needed for this class. GameDriver is the centerpiece
@@ -26,24 +27,50 @@ public class GameDriver {
 
 
     // todo: Non-working MenuSelectListener
+    /*public class MenuSelectListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            String actCommand = e.getActionCommand();
+            if (actCommand.equals("start-ac")) {
+                mainView.setScreen(MainView.Screen.RUN_GAME_SCREEN);
+                runGame();
+            }
+            else if (actCommand.equals("exit-ac")) {
+                mainView.closeGame();
+            }
+        }
+    }*/
 
     public GameDriver() {
-        mainView = new MainView();
-        runGameView = mainView.getRunGameView();
+
         gameState = new GameState();
+        mainView = new MainView(this, gameState);
+        runGameView = mainView.getRunGameView();
     }
 
     public void start() {
         // TODO: Implement.
         // This should set the MainView's screen to the start menu screen.
         mainView.setScreen(MainView.Screen.START_MENU_SCREEN);
+
+        //mainView.setScreen(MainView.Screen.RUN_GAME_SCREEN);
+        //runGame();
+    }
+
+    public void startRun() {
+        mainView.setScreen(MainView.Screen.RUN_GAME_SCREEN);
+        runGame();
+    }
+
+    public void exitGame() {
+        mainView.closeGame();
     }
 
 
     private void runGame() {
-        Tank playerTank = new Tank(GameState.PLAYER_TANK_ID, RunGameView.PLAYER_TANK_INITIAL_X,
+        PlayerTank playerTank = new PlayerTank(GameState.PLAYER_TANK_ID, RunGameView.PLAYER_TANK_INITIAL_X,
                 RunGameView.PLAYER_TANK_INITIAL_Y, RunGameView.PLAYER_TANK_INITIAL_ANGLE);
-        Tank aiTank = new Tank(GameState.AI_TANK_ID, RunGameView.AI_TANK_INITIAL_X,
+        AiTank aiTank = new AiTank(GameState.AI_TANK_ID, RunGameView.AI_TANK_INITIAL_X,
                 RunGameView.AI_TANK_INITIAL_Y, RunGameView.AI_TANK_INITIAL_ANGLE);
 
         gameState.addTank(playerTank);
@@ -77,6 +104,21 @@ public class GameDriver {
         }
 
         // Ask all entities to check bounds
+        for (Tank tank : gameState.getTanks()) {
+            if (tank.getX() > gameState.TANK_X_LOWER_BOUND) {
+
+            }
+            if (tank.getX() < gameState.TANK_X_UPPER_BOUND) {
+
+            }
+            if (tank.getY() > gameState.TANK_Y_LOWER_BOUND) {
+
+            }
+            if (tank.getY() > gameState.TANK_Y_UPPER_BOUND) {
+
+            }
+
+        }
 
         // Collision check
 

@@ -1,6 +1,6 @@
 package edu.csc413.tankgame.view;
 
-import edu.csc413.tankgame.GameDriver.MenuSelectListener;
+import edu.csc413.tankgame.GameDriver;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -37,7 +37,8 @@ public class StartMenuView extends JPanel {
     // You'll need to provide a way for GameDriver to respond to button presses in this view. Note that below, we add
     // null ActionListeners to the buttons, which don't do anything. How can we change that to be an ActionListener that
     // directs us back to the code in GameDriver?
-    public StartMenuView(String startButtonText) {
+
+    public StartMenuView(String startButtonText, GameDriver GD) {
         URL imageUrl = getClass().getClassLoader().getResource(START_MENU_IMAGE_FILE);
         if (imageUrl == null) {
             throw new RuntimeException("Unable to create an image URL from: " + START_MENU_IMAGE_FILE);
@@ -52,8 +53,26 @@ public class StartMenuView extends JPanel {
         setLayout(null);
 
         // TODO: ActionListener
-        addButton(startButtonText, START_BUTTON_BOUNDS, START_BUTTON_ACTION_COMMAND, null);
-        addButton("Exit", EXIT_BUTTON_BOUNDS, EXIT_BUTTON_ACTION_COMMAND, null);
+        MenuSelectlistener MSL = new MenuSelectlistener(GD);
+        addButton(startButtonText, START_BUTTON_BOUNDS, START_BUTTON_ACTION_COMMAND, MSL);
+        addButton("Exit", EXIT_BUTTON_BOUNDS, EXIT_BUTTON_ACTION_COMMAND, MSL);
+    }
+    public class MenuSelectlistener implements ActionListener {
+        GameDriver gameDriver;
+        public MenuSelectlistener(GameDriver GD) {
+            gameDriver = GD;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            String actCommand = e.getActionCommand();
+            if(actCommand.equals(START_BUTTON_ACTION_COMMAND)) {
+                gameDriver.startRun();
+            }
+            else if (actCommand.equals(EXIT_BUTTON_ACTION_COMMAND)) {
+                gameDriver.exitGame();
+            }
+        }
     }
 
     private void addButton(
@@ -71,6 +90,4 @@ public class StartMenuView extends JPanel {
     public void paintComponent(Graphics g) {
         g.drawImage(menuBackground, 0, 0, null);
     }
-
-
 }

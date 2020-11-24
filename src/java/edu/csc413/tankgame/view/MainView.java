@@ -1,7 +1,12 @@
 package edu.csc413.tankgame.view;
 
+import edu.csc413.tankgame.GameDriver;
+import edu.csc413.tankgame.model.GameState;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.WindowEvent;
 
 /**
@@ -37,7 +42,7 @@ public class MainView {
     // However, we want to return control to GameDriver when those events happen. How can we have listeners that directs
     // us back to the code in GameDriver?
 
-    public MainView() {
+    public MainView(GameDriver GD, GameState GS) {
         mainJFrame = new JFrame();
         mainJFrame.setVisible(false);
         mainJFrame.setResizable(false);
@@ -45,22 +50,70 @@ public class MainView {
         mainJFrame.setLocationRelativeTo(null);
         mainJFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         // Todo: Listeners
-        mainJFrame.addKeyListener(null);
+        KeyListener listener = new KeyPressListener(GS);
+        mainJFrame.addKeyListener(listener);
 
         mainPanel = new JPanel();
         mainPanelLayout = new CardLayout();
         mainPanel.setLayout(mainPanelLayout);
 
-        StartMenuView startMenuView = new StartMenuView("Start Game");
+        StartMenuView startMenuView = new StartMenuView("Start Game", GD);
         mainPanel.add(startMenuView, Screen.START_MENU_SCREEN.getScreenName());
 
-        StartMenuView endMenuView = new StartMenuView("Restart Game");
+        StartMenuView endMenuView = new StartMenuView("Restart Game", GD);
         mainPanel.add(endMenuView, Screen.END_MENU_SCREEN.getScreenName());
 
         runGameView = new RunGameView();
         mainPanel.add(runGameView, Screen.RUN_GAME_SCREEN.getScreenName());
 
         mainJFrame.add(mainPanel);
+    }
+    // Todo start
+    private static class KeyPressListener implements KeyListener {
+        GameState gs;
+        public KeyPressListener(GameState gameState) {
+            gs = gameState;
+        }
+        public void setGS(GameState gs) {
+            this.gs = gs;
+        }
+        @Override
+        public void keyTyped(KeyEvent e) {
+            //Useless
+        }
+        @Override
+        public void keyPressed(KeyEvent e) {
+            int keyCode = e.getKeyCode();
+            if (keyCode == KeyEvent.VK_W) {
+                gs.setPressW(true);
+            }
+            if (keyCode == KeyEvent.VK_S) {
+                gs.setPressS(true);
+            }
+            if (keyCode == KeyEvent.VK_A) {
+                gs.setPressA(true);
+            }
+            if (keyCode == KeyEvent.VK_D) {
+                gs.setPressD(true);
+            }
+
+        }
+        @Override
+        public void keyReleased(KeyEvent e) {
+            int keyCode = e.getKeyCode();
+            if (keyCode == KeyEvent.VK_W) {
+                gs.setPressW(false);
+            }
+            if (keyCode == KeyEvent.VK_S) {
+                gs.setPressS(false);
+            }
+            if (keyCode == KeyEvent.VK_A) {
+                gs.setPressA(false);
+            }
+            if (keyCode == KeyEvent.VK_D) {
+                gs.setPressD(false);
+            }
+        }
     }
 
     /**
