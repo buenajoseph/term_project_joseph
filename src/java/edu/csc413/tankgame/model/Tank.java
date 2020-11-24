@@ -43,7 +43,7 @@ public class Tank {
     // consider how to design your Tank class(es) so that a Tank can represent both a player-controlled tank and an AI
     // controlled tank.
 
-    protected void moveForward() {
+    public void moveForward() {
         x += MOVEMENT_SPEED * Math.cos(angle);
         y += MOVEMENT_SPEED * Math.sin(angle);
     }

@@ -43,6 +43,7 @@ public class MainView {
         mainJFrame.setTitle("Tank Wars");
         mainJFrame.setLocationRelativeTo(null);
         mainJFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        // Todo: Listeners
         mainJFrame.addKeyListener(null);
 
         mainPanel = new JPanel();
