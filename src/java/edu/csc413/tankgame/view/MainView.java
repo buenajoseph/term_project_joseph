@@ -96,6 +96,12 @@ public class MainView {
             if (keyCode == KeyEvent.VK_D) {
                 gs.setPressD(true);
             }
+            if (keyCode == KeyEvent.VK_SPACE) {
+                gs.setPressSpace(true);
+            }
+            if (keyCode == KeyEvent.VK_ESCAPE) {
+                gs.setExitButtonPressed(true);
+            }
 
         }
         @Override

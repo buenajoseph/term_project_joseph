@@ -6,25 +6,28 @@ package edu.csc413.tankgame.model;
  */
 // TODO: Notice that Shell has a lot in common with Tank. For full credit, you will need to find a way to share code
 // between the two classes so that the logic for e.g. moveForward, etc. are not duplicated.
-public class Shell {
+public class Shell extends Entity{
     private static final String SHELL_ID_PREFIX = "shell-";
-    private static final double MOVEMENT_SPEED = 4.0;
-
     private static long uniqueId = 0L;
 
-    private final String id;
-    private double x;
-    private double y;
-    private double angle;
-
     public Shell(double x, double y, double angle) {
-        this.id = getUniqueId();
-        this.x = x;
-        this.y = y;
-        this.angle = angle;
+        super(getUniqueId(), x, y, angle);
+        setMOVEMENT_SPEED(4.0);
     }
 
-    private String getUniqueId() {
+    private static String getUniqueId() {
         return SHELL_ID_PREFIX + uniqueId++;
+    }
+
+    @Override
+    public void move(GameState gameState) {
+        if (live) {
+            super.moveForward();
+        }
+    }
+
+    @Override
+    public void setPosition(double x, double y) {
+
     }
 }

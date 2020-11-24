@@ -29,24 +29,31 @@ public class GameState {
     // There's a lot of information the GameState will need to store to provide contextual information. Add whatever
     // instance variables, constructors, and methods are needed.
 
-    private final List<Tank> tanks = new ArrayList<>();
+    private final List<Entity> entities = new ArrayList<>();
 
-    public void addTank(Tank tank) {
-        tanks.add(tank);
+    public void addEntity(Entity entity) {
+        entities.add(entity);
     }
 
-    public List<Tank> getTanks() {
-        return tanks;
+    public List<Entity> getEntities() {
+        return entities;
     }
 
-    public Tank getTank(String id) {
-        return new Tank("1", 1, 1, 1);
+    public Entity getEntity(String id) {
+        for (Entity entity : entities) {
+            if (entity.getId().equals(id)) {
+                return entity;
+            }
+        }
+        return null;
     }
 
     private boolean wPressed = false;
     private boolean sPressed = false;
     private boolean aPressed = false;
     private boolean dPressed = false;
+    private boolean spacePressed = false;
+    private boolean exitButtonPressed = false;
     public boolean wPressed() {
         return wPressed;
     }
@@ -59,6 +66,8 @@ public class GameState {
     public boolean dPressed() {
         return dPressed;
     }
+    public boolean spacePressed() { return spacePressed; }
+    public boolean exitButtonPressed() { return exitButtonPressed; }
 
     public void setPressW(boolean input) {
         wPressed = input;
@@ -72,4 +81,6 @@ public class GameState {
     public void setPressD(boolean input) {
         dPressed = input;
     }
+    public void setPressSpace(boolean input) { spacePressed = input; }
+    public void setExitButtonPressed(boolean input) { exitButtonPressed = input; }
 }

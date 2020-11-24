@@ -73,8 +73,8 @@ public class GameDriver {
         AiTank aiTank = new AiTank(GameState.AI_TANK_ID, RunGameView.AI_TANK_INITIAL_X,
                 RunGameView.AI_TANK_INITIAL_Y, RunGameView.AI_TANK_INITIAL_ANGLE);
 
-        gameState.addTank(playerTank);
-        gameState.addTank(aiTank);
+        gameState.addEntity(playerTank);
+        gameState.addEntity(aiTank);
 
         runGameView.addDrawableEntity(GameState.PLAYER_TANK_ID, RunGameView.PLAYER_TANK_IMAGE_FILE,
                 playerTank.getX(), playerTank.getY(), playerTank.getAngle());
@@ -99,32 +99,72 @@ public class GameDriver {
     // should be updated accordingly. It should return true as long as the game continues.
     private boolean update() {
         // Ask all entities to move
-        for (Tank tank : gameState.getTanks()) {
-            tank.move(gameState);
+        if(gameState.exitButtonPressed()) {
+            mainView.closeGame();
+        }
+        for (Entity entity : gameState.getEntities()) {
+            entity.move(gameState);
         }
 
         // Ask all entities to check bounds
-        for (Tank tank : gameState.getTanks()) {
-            if (tank.getX() < gameState.TANK_X_LOWER_BOUND) {
-                tank.setPosition(gameState.TANK_X_LOWER_BOUND, tank.getY());
+        for (Entity entity : gameState.getEntities()) {
+            if (!entity.getId().contains("shell")) {
+                if (entity.getX() < gameState.TANK_X_LOWER_BOUND) {
+                    entity.setPosition(gameState.TANK_X_LOWER_BOUND, entity.getY());
+                }
+                if (entity.getX() > gameState.TANK_X_UPPER_BOUND) {
+                    entity.setPosition(gameState.TANK_X_UPPER_BOUND, entity.getY());
+                }
+                if (entity.getY() < gameState.TANK_Y_LOWER_BOUND) {
+                    entity.setPosition(entity.getX(), gameState.TANK_Y_LOWER_BOUND);
+                }
+                if (entity.getY() > gameState.TANK_Y_UPPER_BOUND) {
+                    entity.setPosition(entity.getX(), gameState.TANK_Y_UPPER_BOUND);
+                }
             }
-            if (tank.getX() > gameState.TANK_X_UPPER_BOUND) {
-                tank.setPosition(gameState.TANK_X_UPPER_BOUND, tank.getY());
-            }
-            if (tank.getY() < gameState.TANK_Y_LOWER_BOUND) {
-                tank.setPosition(tank.getX(), gameState.TANK_Y_LOWER_BOUND);
-            }
-            if (tank.getY() > gameState.TANK_Y_UPPER_BOUND) {
-                tank.setPosition(tank.getX(), gameState.TANK_X_UPPER_BOUND);
+            else {
+                if (entity.getX() < gameState.SHELL_X_LOWER_BOUND ||
+                        entity.getX() > gameState.SHELL_X_UPPER_BOUND ||
+                        entity.getY() < gameState.SHELL_Y_LOWER_BOUND ||
+                        entity.getY() > gameState.SHELL_Y_UPPER_BOUND) {
+                    entity.setLive(false);
+                }
             }
 
         }
 
         // Collision check
 
+        // GameState - new entities to draw
+        // if so, call addDrawableEntity
+        for (int in = 0; in < gameState.getEntities().size(); in++) {
+            if (gameState.spacePressed()) {
+                double x = gameState.getEntity(GameState.PLAYER_TANK_ID).getX();
+                double y = gameState.getEntity(GameState.PLAYER_TANK_ID).getY();
+                double angle = gameState.getEntity(GameState.PLAYER_TANK_ID).getAngle();
+                Shell shell = new Shell(x, y, angle);
+                gameState.addEntity(shell);
+                runGameView.addDrawableEntity(shell.getId(), RunGameView.SHELL_IMAGE_FILE,
+                        shell.getX(), shell.getY(), shell.getAngle());
+                gameState.setPressSpace(false);
+            }
+
+        }
+
+
+        // GameState - new entities to remove
+        // if so, call removeDrawableEntity
+        for (int in = 0; in < gameState.getEntities().size(); in++) {
+            if (!gameState.getEntities().get(in).getLive() && gameState.getEntities().get(in).getId().contains("shell")) {
+                runGameView.removeDrawableEntity(gameState.getEntities().get(in).getId());
+                gameState.getEntities().remove(in);
+                in--;
+            }
+        }
+
         // set new locations and angles of every drawable entity
-        for (Tank tank : gameState.getTanks()) {
-            runGameView.setDrawableEntityLocationAndAngle(tank.getId(), tank.getX(), tank.getY(), tank.getAngle());
+        for (Entity entity : gameState.getEntities()) {
+            runGameView.setDrawableEntityLocationAndAngle(entity.getId(), entity.getX(), entity.getY(), entity.getAngle());
         }
         return true;
     }
