@@ -26,21 +26,6 @@ public class GameDriver {
     private final GameState gameState;
 
 
-    // todo: Non-working MenuSelectListener
-    /*public class MenuSelectListener implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            String actCommand = e.getActionCommand();
-            if (actCommand.equals("start-ac")) {
-                mainView.setScreen(MainView.Screen.RUN_GAME_SCREEN);
-                runGame();
-            }
-            else if (actCommand.equals("exit-ac")) {
-                mainView.closeGame();
-            }
-        }
-    }*/
-
     public GameDriver() {
 
         gameState = new GameState();
@@ -52,9 +37,6 @@ public class GameDriver {
         // TODO: Implement.
         // This should set the MainView's screen to the start menu screen.
         mainView.setScreen(MainView.Screen.START_MENU_SCREEN);
-
-        //mainView.setScreen(MainView.Screen.RUN_GAME_SCREEN);
-        //runGame();
     }
 
     public void startRun() {
@@ -100,7 +82,8 @@ public class GameDriver {
     private boolean update() {
         // Ask all entities to move
         if(gameState.exitButtonPressed()) {
-            mainView.closeGame();
+            mainView.setScreen(MainView.Screen.END_MENU_SCREEN);
+            return false;
         }
         for (Entity entity : gameState.getEntities()) {
             entity.move(gameState);
@@ -166,20 +149,6 @@ public class GameDriver {
                     }
                 }
             }
-
-                /*if (gameState.spacePressed() && gameState.getEntity(GameState.PLAYER_TANK_ID)) {
-                    double x = gameState.getEntity(GameState.PLAYER_TANK_ID).getX() + 30.0 *
-                            (Math.cos(gameState.getEntity(GameState.PLAYER_TANK_ID).getAngle()) + 0.5)())
-                    double y = gameState.getEntity(GameState.PLAYER_TANK_ID).getY() + 30.0 *
-                            (Math.sin(gameState.getEntity(GameState.PLAYER_TANK_ID).getAngle()) + 0.5)());
-                    double angle = gameState.getEntity(GameState.PLAYER_TANK_ID).getAngle();
-                    Shell shell = new Shell(x, y, angle);
-                    gameState.addEntity(shell);
-                    runGameView.addDrawableEntity(shell.getId(), RunGameView.SHELL_IMAGE_FILE,
-                            shell.getX(), shell.getY(), shell.getAngle());
-                    gameState.setPressSpace(false);
-                    gameState.setPlayerShot(true);
-                }*/
 
         // GameState - new entities to remove
         // if so, call removeDrawableEntity

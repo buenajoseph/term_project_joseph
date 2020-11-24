@@ -60,8 +60,6 @@ public class GameState {
     private boolean dPressed = false;
     private boolean spacePressed = false;
     private boolean exitButtonPressed = false;
-    private boolean playerShot = false;
-    private boolean aiShot = false;
 
     public boolean wPressed() {
         return wPressed;
@@ -77,9 +75,6 @@ public class GameState {
     }
     public boolean spacePressed() { return spacePressed; }
     public boolean exitButtonPressed() { return exitButtonPressed; }
-    public boolean playerShot() { return playerShot; }
-    public boolean aiShot() { return aiShot; }
-
 
     public void setPressW(boolean input) {
         wPressed = input;
@@ -95,6 +90,4 @@ public class GameState {
     }
     public void setPressSpace(boolean input) { spacePressed = input; }
     public void setExitButtonPressed(boolean input) { exitButtonPressed = input; }
-    public void setPlayerShot(boolean input) { playerShot = input; }
-    public void setAiShot(boolean input) { aiShot = input; }
 }
