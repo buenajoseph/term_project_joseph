@@ -43,6 +43,11 @@ public class Tank {
     // consider how to design your Tank class(es) so that a Tank can represent both a player-controlled tank and an AI
     // controlled tank.
 
+    public void setPosition(double x, double y) {
+        this.x = x;
+        this.y = y;
+    }
+
     public void move(GameState gameState) {
         //implement in subclasses
     }

@@ -105,17 +105,17 @@ public class GameDriver {
 
         // Ask all entities to check bounds
         for (Tank tank : gameState.getTanks()) {
-            if (tank.getX() > gameState.TANK_X_LOWER_BOUND) {
-
+            if (tank.getX() < gameState.TANK_X_LOWER_BOUND) {
+                tank.setPosition(gameState.TANK_X_LOWER_BOUND, tank.getY());
             }
-            if (tank.getX() < gameState.TANK_X_UPPER_BOUND) {
-
+            if (tank.getX() > gameState.TANK_X_UPPER_BOUND) {
+                tank.setPosition(gameState.TANK_X_UPPER_BOUND, tank.getY());
             }
-            if (tank.getY() > gameState.TANK_Y_LOWER_BOUND) {
-
+            if (tank.getY() < gameState.TANK_Y_LOWER_BOUND) {
+                tank.setPosition(tank.getX(), gameState.TANK_Y_LOWER_BOUND);
             }
             if (tank.getY() > gameState.TANK_Y_UPPER_BOUND) {
-
+                tank.setPosition(tank.getX(), gameState.TANK_X_UPPER_BOUND);
             }
 
         }
