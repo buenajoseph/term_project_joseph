@@ -1,8 +1,11 @@
 package edu.csc413.tankgame.view;
 
+import edu.csc413.tankgame.GameDriver.MenuSelectListener;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -49,8 +52,6 @@ public class StartMenuView extends JPanel {
         setLayout(null);
 
         // TODO: ActionListener
-
-        /*MenuSelectListener listener = new MenuSelectListener();*/
         addButton(startButtonText, START_BUTTON_BOUNDS, START_BUTTON_ACTION_COMMAND, null);
         addButton("Exit", EXIT_BUTTON_BOUNDS, EXIT_BUTTON_ACTION_COMMAND, null);
     }
@@ -70,4 +71,6 @@ public class StartMenuView extends JPanel {
     public void paintComponent(Graphics g) {
         g.drawImage(menuBackground, 0, 0, null);
     }
+
+
 }

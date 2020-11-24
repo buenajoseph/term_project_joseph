@@ -7,6 +7,7 @@ import edu.csc413.tankgame.view.RunGameView;
 import edu.csc413.tankgame.model.*;
 import edu.csc413.tankgame.view.StartMenuView;
 
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -19,27 +20,12 @@ public class GameDriver {
     // Add the instance variables, constructors, and other methods needed for this class. GameDriver is the centerpiece
     // for the tank game, and should store and manage the other components (i.e. the views and the models). It also is
     // responsible for running the game loop.
-    private final MainView mainView; //changed to static from final
+    private final MainView mainView;
     private final RunGameView runGameView;
-    //private static String state = "start-game";
     private final GameState gameState;
 
 
     // todo: Non-working MenuSelectListener
-
-    /*public static class MenuSelectListener implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            String actionCommand = e.getActionCommand();
-            if (actionCommand.equals(StartMenuView.START_BUTTON_ACTION_COMMAND)) {
-                state = "run-game";
-            }
-            if (actionCommand.equals(StartMenuView.EXIT_BUTTON_ACTION_COMMAND)) {
-                state = "exit";
-            }
-        }
-    }*/
-
 
     public GameDriver() {
         mainView = new MainView();
@@ -51,20 +37,8 @@ public class GameDriver {
         // TODO: Implement.
         // This should set the MainView's screen to the start menu screen.
         mainView.setScreen(MainView.Screen.START_MENU_SCREEN);
-
-        // Todo: change me
-        mainView.setScreen((MainView.Screen.RUN_GAME_SCREEN));
-        runGame();
-        /*while (state.equals("start-game")) {
-            if (state.equals("run-game")) {
-                mainView.setScreen(MainView.Screen.RUN_GAME_SCREEN);
-                runGame();
-            }
-            else if (state.equals("exit")) {
-                mainView.closeGame();
-            }
-        }*/
     }
+
 
     private void runGame() {
         Tank playerTank = new Tank(GameState.PLAYER_TANK_ID, RunGameView.PLAYER_TANK_INITIAL_X,
@@ -99,7 +73,7 @@ public class GameDriver {
     private boolean update() {
         // Ask all entities to move
         for (Tank tank : gameState.getTanks()) {
-            tank.moveForward();
+            tank.move(gameState);
         }
 
         // Ask all entities to check bounds
