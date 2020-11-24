@@ -27,9 +27,9 @@ public class GameDriver {
 
 
     public GameDriver() {
-
+        MenuSelectListener menuSelectListener = new MenuSelectListener();
         gameState = new GameState();
-        mainView = new MainView(this, gameState);
+        mainView = new MainView(menuSelectListener, gameState);
         runGameView = mainView.getRunGameView();
     }
 
@@ -39,13 +39,18 @@ public class GameDriver {
         mainView.setScreen(MainView.Screen.START_MENU_SCREEN);
     }
 
-    public void startRun() {
-        mainView.setScreen(MainView.Screen.RUN_GAME_SCREEN);
-        runGame();
-    }
-
-    public void exitGame() {
-        mainView.closeGame();
+    public class MenuSelectListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            String actCommand = e.getActionCommand();
+            if(actCommand.equals(StartMenuView.START_BUTTON_ACTION_COMMAND)) {
+                mainView.setScreen(MainView.Screen.RUN_GAME_SCREEN);
+                runGame();
+            }
+            else if (actCommand.equals(StartMenuView.EXIT_BUTTON_ACTION_COMMAND)) {
+                mainView.closeGame();
+            }
+        }
     }
 
 
@@ -83,6 +88,9 @@ public class GameDriver {
         // Ask all entities to move
         if(gameState.exitButtonPressed()) {
             mainView.setScreen(MainView.Screen.END_MENU_SCREEN);
+            gameState.setExitButtonPressed(false);
+            gameState.clearEntities();
+            runGameView.reset();
             return false;
         }
         for (Entity entity : gameState.getEntities()) {

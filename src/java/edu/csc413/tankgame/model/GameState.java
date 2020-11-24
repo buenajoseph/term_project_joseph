@@ -29,9 +29,14 @@ public class GameState {
     // TODO: Implement.
     // There's a lot of information the GameState will need to store to provide contextual information. Add whatever
     // instance variables, constructors, and methods are needed.
-    private static HashMap<String, Boolean> cooldownBoolMap = new HashMap<>();
-
+    private HashMap<String, Boolean> cooldownBoolMap = new HashMap<>();
     private final List<Entity> entities = new ArrayList<>();
+
+    public void clearEntities() {
+        while (entities.size() >= 1) {
+            entities.remove(0);
+        }
+    }
 
     public void addEntity(Entity entity) {
 

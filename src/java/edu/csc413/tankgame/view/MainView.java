@@ -5,6 +5,7 @@ import edu.csc413.tankgame.model.GameState;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowEvent;
@@ -42,7 +43,7 @@ public class MainView {
     // However, we want to return control to GameDriver when those events happen. How can we have listeners that directs
     // us back to the code in GameDriver?
 
-    public MainView(GameDriver GD, GameState GS) {
+    public MainView(ActionListener AL, GameState GS) {
         mainJFrame = new JFrame();
         mainJFrame.setVisible(false);
         mainJFrame.setResizable(false);
@@ -57,10 +58,10 @@ public class MainView {
         mainPanelLayout = new CardLayout();
         mainPanel.setLayout(mainPanelLayout);
 
-        StartMenuView startMenuView = new StartMenuView("Start Game", GD);
+        StartMenuView startMenuView = new StartMenuView("Start Game", AL);
         mainPanel.add(startMenuView, Screen.START_MENU_SCREEN.getScreenName());
 
-        StartMenuView endMenuView = new StartMenuView("Restart Game", GD);
+        StartMenuView endMenuView = new StartMenuView("Restart Game", AL);
         mainPanel.add(endMenuView, Screen.END_MENU_SCREEN.getScreenName());
 
         runGameView = new RunGameView();

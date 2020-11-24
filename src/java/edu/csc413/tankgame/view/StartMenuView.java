@@ -38,7 +38,7 @@ public class StartMenuView extends JPanel {
     // null ActionListeners to the buttons, which don't do anything. How can we change that to be an ActionListener that
     // directs us back to the code in GameDriver?
 
-    public StartMenuView(String startButtonText, GameDriver GD) {
+    public StartMenuView(String startButtonText, ActionListener AL) {
         URL imageUrl = getClass().getClassLoader().getResource(START_MENU_IMAGE_FILE);
         if (imageUrl == null) {
             throw new RuntimeException("Unable to create an image URL from: " + START_MENU_IMAGE_FILE);
@@ -53,27 +53,10 @@ public class StartMenuView extends JPanel {
         setLayout(null);
 
         // TODO: ActionListener
-        MenuSelectlistener MSL = new MenuSelectlistener(GD);
-        addButton(startButtonText, START_BUTTON_BOUNDS, START_BUTTON_ACTION_COMMAND, MSL);
-        addButton("Exit", EXIT_BUTTON_BOUNDS, EXIT_BUTTON_ACTION_COMMAND, MSL);
+        addButton(startButtonText, START_BUTTON_BOUNDS, START_BUTTON_ACTION_COMMAND, AL);
+        addButton("Exit", EXIT_BUTTON_BOUNDS, EXIT_BUTTON_ACTION_COMMAND, AL);
     }
-    public class MenuSelectlistener implements ActionListener {
-        GameDriver gameDriver;
-        public MenuSelectlistener(GameDriver GD) {
-            gameDriver = GD;
-        }
 
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            String actCommand = e.getActionCommand();
-            if(actCommand.equals(START_BUTTON_ACTION_COMMAND)) {
-                gameDriver.startRun();
-            }
-            else if (actCommand.equals(EXIT_BUTTON_ACTION_COMMAND)) {
-                gameDriver.exitGame();
-            }
-        }
-    }
 
     private void addButton(
             String buttonText, Rectangle buttonBounds, String buttonActionCommand, ActionListener actionListener) {
