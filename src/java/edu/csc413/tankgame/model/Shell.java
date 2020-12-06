@@ -9,16 +9,15 @@ package edu.csc413.tankgame.model;
 public class Shell extends Entity{
     private static final String SHELL_ID_PREFIX = "shell-";
     private static long uniqueId = 0L;
-    private static String tankId;
 
     public Shell(double x, double y, double angle, String tankId) {
         super(getUniqueId(tankId), x, y, angle);
-        setMOVEMENT_SPEED(4.0);
+        setMOVEMENT_SPEED(1.0);
         setHealth(1);
     }
 
     private static String getUniqueId(String input) {
-        return SHELL_ID_PREFIX + uniqueId++ + " " + tankId;
+        return SHELL_ID_PREFIX + uniqueId++ + " " + input;
     }
 
     @Override

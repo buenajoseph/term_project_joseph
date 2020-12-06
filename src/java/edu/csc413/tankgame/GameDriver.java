@@ -45,6 +45,7 @@ public class GameDriver {
         public void actionPerformed(ActionEvent e) {
             String actCommand = e.getActionCommand();
             if(actCommand.equals(StartMenuView.START_BUTTON_ACTION_COMMAND)) {
+                gameState.setGameOver(false);
                 mainView.setScreen(MainView.Screen.RUN_GAME_SCREEN);
                 runGame();
             }
@@ -174,6 +175,7 @@ public class GameDriver {
                                 shoot = true;
                             }
                         }
+
                         if (shoot) {
                             shell = new Shell(x, y, angle, entity.getId());
                             gameState.addEntity(shell);
@@ -221,7 +223,8 @@ public class GameDriver {
         double overlapDown = entity2.getYBound() - entity1.getY();
         double min = Math.min(
                 Math.min(overlapLeft, overlapRight), Math.min(overlapDown, overlapUp));
-        if(entity1.getId().contains("tank") && entity2.getId().contains("tank"))
+        if(entity1.getId().contains("tank") && entity2.getId().contains("tank") &&
+        !entity1.getId().contains("shell") && !entity2.getId().contains("shell"))
         {
             //tank-tank
             //action
@@ -256,9 +259,27 @@ public class GameDriver {
             }
 
         }
-        else if(entity1.getId().contains("tank") && entity2.getId().contains("wall"))
+        else if(entity1.getId().contains("tank") && entity2.getId().contains("wall") &&
+        !entity1.getId().contains("shell"))
         {
             //tank-wall
+            if (min == overlapRight) {
+                //entity1.setPosition(entity1.getX() - (1/2)*min*10, entity1.getY());
+                entity1.setPosition(entity1.getX() + min,entity1.getY());
+                //System.out.println("overlap right");
+            }
+            else if (min == overlapLeft) {
+                entity1.setPosition(entity1.getX() - min, entity1.getY());
+                //System.out.println("overlap left");
+            }
+            else if (min == overlapUp) {
+                entity1.setPosition(entity1.getX(), entity1.getY() - min);
+                //System.out.println("overlap up");
+            }
+            else if (min == overlapDown){
+                entity1.setPosition(entity1.getX(), entity1.getY() + min);
+                //System.out.println("overlap down");
+            }
         }
         else if(entity1.getId().contains("shell") && entity2.getId().contains("shell"))
         {
@@ -268,9 +289,13 @@ public class GameDriver {
                 entity2.setHealth(0);
             }
         }
-        else if(entity1.getId().contains("shell") && entity2.getId().contains("wall"))
+        else if(entity1.getId().contains("wall") && entity2.getId().contains("shell"))
         {
             //shell-wall
+            if(min < 32) {
+                entity1.setHealth(entity1.getHealth() - 1);
+                entity2.setHealth(0);
+            }
         }
     }
 
