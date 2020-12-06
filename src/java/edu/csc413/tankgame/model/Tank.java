@@ -13,6 +13,7 @@ public class Tank extends Entity{
         super(id, x, y, angle);
         setMOVEMENT_SPEED(2.0);
         setTURN_SPEED(Math.toRadians(3.0));
+        setHealth(3);
         cooldown = 0;
     }
 
@@ -21,10 +22,21 @@ public class Tank extends Entity{
         setY(y);
     }
 
+    @Override
+    public double getXBound() {
+        return getX() + 55;
+    }
+
+    @Override
+    public double getYBound() {
+        return getY() + 55;
+    }
+
+    @Override
     public void move(GameState gameState) {
         if (!readyToShoot) {
             cooldown++;
-            if (cooldown > 50) {
+            if (cooldown > 124) {
                 readyToShoot = true;
                 cooldown = 0;
             }

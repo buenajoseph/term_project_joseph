@@ -24,13 +24,21 @@ public class GameState {
 
     public static final String PLAYER_TANK_ID = "player-tank";
     public static final String AI_TANK_ID = "ai-tank";
+    public static final String AI_TANK_ID2 = "ai-tank-2";
     // TODO: Feel free to add more tank IDs if you want to support multiple AI tanks! Just make sure they're unique.
 
     // TODO: Implement.
     // There's a lot of information the GameState will need to store to provide contextual information. Add whatever
     // instance variables, constructors, and methods are needed.
-    private HashMap<String, Boolean> cooldownBoolMap = new HashMap<>();
     private final List<Entity> entities = new ArrayList<>();
+    private static boolean gameOver = false;
+
+    public void setGameOver(boolean game) {
+        gameOver = game;
+    }
+    public boolean gameOver() {
+        return gameOver;
+    }
 
     public void clearEntities() {
         while (entities.size() >= 1) {
@@ -41,9 +49,6 @@ public class GameState {
     public void addEntity(Entity entity) {
 
         entities.add(entity);
-        if (!entity.getId().contains("shell")) {
-            cooldownBoolMap.put(entity.getId(), false);
-        }
     }
 
     public List<Entity> getEntities() {

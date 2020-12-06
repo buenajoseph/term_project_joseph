@@ -3,13 +3,13 @@ package edu.csc413.tankgame.model;
 public abstract class Entity {
     protected double MOVEMENT_SPEED;
     protected double TURN_SPEED;
-    protected boolean live = true;
     protected boolean readyToShoot;
 
     private final String id;
     private double x;
     private double y;
     private double angle;
+    private int health;
 
     public Entity(String id, double x, double y, double angle) {
         this.id = id;
@@ -53,6 +53,12 @@ public abstract class Entity {
     // protected. You should not be calling these methods directly from outside the Tank class hierarchy. Instead,
     // consider how to design your Tank class(es) so that a Tank can represent both a player-controlled tank and an AI
     // controlled tank.
+    public void setHealth(int health) {
+        this.health = health;
+    }
+    public int getHealth() {
+        return health;
+    }
 
     public boolean readyToShoot() {
         return readyToShoot;
@@ -61,6 +67,8 @@ public abstract class Entity {
         readyToShoot = input;
     }
 
+    public abstract double getXBound();
+    public abstract double getYBound();
     public abstract void move(GameState gameState);
 
     protected void moveForward() {
@@ -79,14 +87,6 @@ public abstract class Entity {
 
     protected void turnRight() {
         angle += TURN_SPEED;
-    }
-
-    public boolean getLive() {
-        return live;
-    }
-
-    public void setLive(boolean live) {
-        this.live = live;
     }
 
     public abstract void setPosition(double x, double y);

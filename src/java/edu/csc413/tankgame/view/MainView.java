@@ -120,6 +120,9 @@ public class MainView {
             if (keyCode == KeyEvent.VK_D) {
                 gs.setPressD(false);
             }
+            if (keyCode == KeyEvent.VK_SPACE) {
+                gs.setPressSpace(false);
+            }
         }
     }
 
