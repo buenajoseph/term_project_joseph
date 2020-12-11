@@ -32,12 +32,17 @@ public class GameState {
     // instance variables, constructors, and methods are needed.
     private final List<Entity> entities = new ArrayList<>();
     private static boolean gameOver = false;
+    private static int gameOverTimer = 0;
 
     public void setGameOver(boolean game) {
         gameOver = game;
     }
     public boolean gameOver() {
         return gameOver;
+    }
+    public boolean incrementGameOverTimer() {
+        gameOverTimer++;
+        return gameOverTimer > 500;
     }
 
     public void clearEntities() {

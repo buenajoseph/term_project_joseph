@@ -14,12 +14,12 @@ public class SpeedPowerUp extends Entity{
 
     @Override
     public double getXBound() {
-        return getX() + 60/2;
+        return getX() + 120/2;
     }
 
     @Override
     public double getYBound() {
-        return getY() + 60/2;
+        return getY() + 120/2;
     }
 
     @Override

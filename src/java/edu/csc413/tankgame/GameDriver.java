@@ -59,8 +59,8 @@ public class GameDriver {
     private void runGame() {
         PlayerTank playerTank = new PlayerTank(GameState.PLAYER_TANK_ID, RunGameView.PLAYER_TANK_INITIAL_X,
                 RunGameView.PLAYER_TANK_INITIAL_Y, RunGameView.PLAYER_TANK_INITIAL_ANGLE);
-        AiTank aiTank = new AiTank(GameState.AI_TANK_ID, RunGameView.AI_TANK_INITIAL_X,
-                RunGameView.AI_TANK_INITIAL_Y, RunGameView.AI_TANK_INITIAL_ANGLE);
+        SmartAITank aiTank = new SmartAITank(GameState.AI_TANK_ID, RunGameView.AI_TANK_INITIAL_X,
+                RunGameView.AI_TANK_INITIAL_Y, RunGameView.AI_TANK_INITIAL_ANGLE, gameState);
         SniperTank aiTank2 = new SniperTank(GameState.AI_TANK_ID2, RunGameView.AI_TANK_2_INITIAL_X,
                 RunGameView.AI_TANK_2_INITIAL_Y, RunGameView.AI_TANK_2_INITIAL_ANGLE,
                 gameState);
@@ -104,7 +104,7 @@ public class GameDriver {
     // update should handle one frame of gameplay. All tanks and shells move one step, and all drawn entities
     // should be updated accordingly. It should return true as long as the game continues.
     private boolean update() {
-        // Ask all entities to move
+        // esc pressed
         if(gameState.exitButtonPressed()) {
             mainView.setScreen(MainView.Screen.END_MENU_SCREEN);
             gameState.setExitButtonPressed(false);
@@ -112,9 +112,23 @@ public class GameDriver {
             runGameView.reset();
             return false;
         }
-        if (gameState.getEntity(GameState.PLAYER_TANK_ID).getPowerUpEnabled()) {
-            gameState.getEntity(GameState.PLAYER_TANK_ID).incrementPowerUpCountdown();
+        // power up counter checker
+        if (!gameState.gameOver()) {
+            if (gameState.getEntity(GameState.PLAYER_TANK_ID).getPowerUpEnabled()) {
+                gameState.getEntity(GameState.PLAYER_TANK_ID).incrementPowerUpCountdown();
+            }
         }
+        // end game timer
+        if (gameState.gameOver()) {
+            if (gameState.incrementGameOverTimer()) {
+                mainView.setScreen(MainView.Screen.END_MENU_SCREEN);
+                gameState.setExitButtonPressed(false);
+                gameState.clearEntities();
+                runGameView.reset();
+                return false;
+            }
+        }
+        // Ask all entities to move
         for (Entity entity : gameState.getEntities()) {
             entity.move(gameState);
         }
@@ -203,6 +217,7 @@ public class GameDriver {
                 if (gameState.getEntities().get(in).getId() == GameState.PLAYER_TANK_ID){
                     gameState.setGameOver(true);
                 }
+                
                 runGameView.removeDrawableEntity(gameState.getEntities().get(in).getId());
                 gameState.getEntities().remove(in);
                 in--;
