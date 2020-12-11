@@ -23,7 +23,7 @@ public class GameState {
     public static final double SHELL_Y_UPPER_BOUND = RunGameView.SCREEN_DIMENSIONS.height;
 
     public static final String PLAYER_TANK_ID = "player-tank";
-    public static final String AI_TANK_ID = "ai-tank";
+    public static final String AI_TANK_ID = "ai-tank-1";
     public static final String AI_TANK_ID2 = "ai-tank-2";
     // TODO: Feel free to add more tank IDs if you want to support multiple AI tanks! Just make sure they're unique.
 
@@ -33,6 +33,16 @@ public class GameState {
     private final List<Entity> entities = new ArrayList<>();
     private static boolean gameOver = false;
     private static int gameOverTimer = 0;
+
+    private static int enemyCount = 0;
+
+    public static void setEnemyCount(int enemyCount) {
+        GameState.enemyCount = enemyCount;
+    }
+
+    public static int getEnemyCount() {
+        return enemyCount;
+    }
 
     public void setGameOver(boolean game) {
         gameOver = game;

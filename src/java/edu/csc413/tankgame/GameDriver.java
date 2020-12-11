@@ -66,7 +66,9 @@ public class GameDriver {
                 gameState);
         gameState.addEntity(playerTank);
         gameState.addEntity(aiTank);
+        gameState.setEnemyCount(gameState.getEnemyCount() + 1);
         gameState.addEntity(aiTank2);
+        gameState.setEnemyCount(gameState.getEnemyCount() + 1);
 
         SpeedPowerUp powerUp = new SpeedPowerUp(480, 50);
         gameState.addEntity(powerUp);
@@ -217,7 +219,15 @@ public class GameDriver {
                 if (gameState.getEntities().get(in).getId() == GameState.PLAYER_TANK_ID){
                     gameState.setGameOver(true);
                 }
-                
+
+                if (gameState.getEntities().get(in).getId().contains("ai-tank") &&
+                        !gameState.getEntities().get(in).getId().contains("shell")) {
+                    gameState.setEnemyCount(gameState.getEnemyCount() - 1);
+                    if (gameState.getEnemyCount() < 1) {
+                        gameState.setGameOver(true);
+                    }
+                }
+
                 runGameView.removeDrawableEntity(gameState.getEntities().get(in).getId());
                 gameState.getEntities().remove(in);
                 in--;
