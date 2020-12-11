@@ -10,6 +10,8 @@ public abstract class Entity {
     private double y;
     private double angle;
     private int health;
+    private boolean powerUpEnabled = false;
+    private int powerUpCountdown = 0;
 
     public Entity(String id, double x, double y, double angle) {
         this.id = id;
@@ -53,6 +55,24 @@ public abstract class Entity {
     // protected. You should not be calling these methods directly from outside the Tank class hierarchy. Instead,
     // consider how to design your Tank class(es) so that a Tank can represent both a player-controlled tank and an AI
     // controlled tank.
+
+
+    public void setPowerUpEnabled(boolean powerUpEnabled) {
+        this.powerUpEnabled = powerUpEnabled;
+    }
+    public boolean getPowerUpEnabled() {
+        return powerUpEnabled;
+    }
+    public void incrementPowerUpCountdown() {
+        powerUpCountdown++;
+        if (powerUpCountdown > 1000) {
+            setMOVEMENT_SPEED(1);
+            powerUpEnabled = false;
+            powerUpCountdown = 0;
+        }
+        System.out.println(powerUpCountdown);
+    }
+
     public void setHealth(int health) {
         this.health = health;
     }

@@ -67,6 +67,10 @@ public class GameDriver {
         gameState.addEntity(playerTank);
         gameState.addEntity(aiTank);
         gameState.addEntity(aiTank2);
+
+        SpeedPowerUp powerUp = new SpeedPowerUp(480, 50);
+        gameState.addEntity(powerUp);
+
         for (WallImageInfo wallInfo : WallImageInfo.readWalls()) {
             Wall wall = new Wall(wallInfo.getX(), wallInfo.getY());
             gameState.addEntity(wall);
@@ -80,6 +84,8 @@ public class GameDriver {
                 aiTank.getX(), aiTank.getY(), aiTank.getAngle());
         runGameView.addDrawableEntity(GameState.AI_TANK_ID2, RunGameView.AI_TANK_IMAGE_FILE,
                 aiTank2.getX(), aiTank2.getY(), aiTank2.getAngle());
+        runGameView.addDrawableEntity(powerUp.getId(), powerUp.POWER_UP_IMAGE_FILE,
+                powerUp.getX(), powerUp.getY(), powerUp.getAngle());
 
         Runnable gameRunner = () -> {
             while (update()) {
@@ -105,6 +111,9 @@ public class GameDriver {
             gameState.clearEntities();
             runGameView.reset();
             return false;
+        }
+        if (gameState.getEntity(GameState.PLAYER_TANK_ID).getPowerUpEnabled()) {
+            gameState.getEntity(GameState.PLAYER_TANK_ID).incrementPowerUpCountdown();
         }
         for (Entity entity : gameState.getEntities()) {
             entity.move(gameState);
@@ -297,7 +306,15 @@ public class GameDriver {
                 entity2.setHealth(0);
             }
         }
+        else if (entity1.getId().contains("tank") && entity2.getId().contains("power-up") &&
+        !entity1.getId().contains("shell")) {
+            entity2.setHealth(0);
+            entity1.setPowerUpEnabled(true);
+            entity1.setHealth(8);
+            entity1.setMOVEMENT_SPEED(2);
+        }
     }
+
 
     public static void main(String[] args) {
         GameDriver gameDriver = new GameDriver();

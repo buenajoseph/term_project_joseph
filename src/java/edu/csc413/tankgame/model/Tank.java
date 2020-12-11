@@ -8,13 +8,15 @@ package edu.csc413.tankgame.model;
 // between the two classes so that the logic for e.g. moveForward, etc. are not duplicated.
 public class Tank extends Entity{
     private int cooldown;
+    private int cdLimit;
     private boolean readyToShoot;
     public Tank(String id, double x, double y, double angle) {
         super(id, x, y, angle);
-        setMOVEMENT_SPEED(2.0);
+        setMOVEMENT_SPEED(1);
         setTURN_SPEED(Math.toRadians(3.0));
         setHealth(3);
         cooldown = 0;
+        cdLimit = 125;
     }
 
     public void setPosition(double x, double y) {
@@ -36,11 +38,14 @@ public class Tank extends Entity{
     public void move(GameState gameState) {
         if (!readyToShoot) {
             cooldown++;
-            if (cooldown > 124) {
+            if (cooldown > cdLimit) {
                 readyToShoot = true;
                 cooldown = 0;
             }
         }
+    }
+    protected void setCooldownLimit(int CDL) {
+        cdLimit = CDL;
     }
 
     public boolean readyToShoot() {
