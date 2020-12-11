@@ -26,7 +26,6 @@ public class SmartAITank extends Tank{
 
                     if (entitiesNear(e2)) {
                         if (e2.getId().contains("shell") && !e2.getId().contains(getId())) {
-                            System.out.println("shell near");
                             dodging = true;
                             double dxShell = e2.getX() - getX();
                             double dyShell = e2.getY() - getY();

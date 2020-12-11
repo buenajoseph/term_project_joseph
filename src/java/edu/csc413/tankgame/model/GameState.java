@@ -54,6 +54,10 @@ public class GameState {
         gameOverTimer++;
         return gameOverTimer > 500;
     }
+    public void resetGameOver() {
+        gameOverTimer = 0;
+        enemyCount = 0;
+    }
 
     public void clearEntities() {
         while (entities.size() >= 1) {

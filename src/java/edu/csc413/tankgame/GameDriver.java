@@ -111,6 +111,7 @@ public class GameDriver {
             mainView.setScreen(MainView.Screen.END_MENU_SCREEN);
             gameState.setExitButtonPressed(false);
             gameState.clearEntities();
+            gameState.resetGameOver();
             runGameView.reset();
             return false;
         }
@@ -126,6 +127,7 @@ public class GameDriver {
                 mainView.setScreen(MainView.Screen.END_MENU_SCREEN);
                 gameState.setExitButtonPressed(false);
                 gameState.clearEntities();
+                gameState.resetGameOver();
                 runGameView.reset();
                 return false;
             }

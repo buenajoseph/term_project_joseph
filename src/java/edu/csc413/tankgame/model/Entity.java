@@ -70,7 +70,6 @@ public abstract class Entity {
             powerUpEnabled = false;
             powerUpCountdown = 0;
         }
-        System.out.println(powerUpCountdown);
     }
 
     public void setHealth(int health) {
